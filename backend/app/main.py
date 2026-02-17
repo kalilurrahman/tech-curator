@@ -1,10 +1,10 @@
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import FastAPI, BackgroundTasks, Query
 from fastapi.middleware.cors import CORSMiddleware
 from app.services.ingestion import fetch_news
 from app.services.dedupe import Deduplicator
 from app.services.clustering import cluster_stories
 from app.models import StoryCluster, Article
-from typing import List
+from typing import List, Optional
 
 app = FastAPI(title="TechCurator Engine")
 
@@ -24,7 +24,31 @@ async def startup():
     run_pipeline()
 
 @app.get("/feed", response_model=List[StoryCluster])
-async def get_feed():
+async def get_feed(q: Optional[str] = Query(None, description="Search query to filter stories")):
+    if q:
+        query = q.lower()
+        filtered_clusters = []
+        for cluster in current_clusters:
+            # Check topic label
+            if query in cluster.topic_label.lower():
+                filtered_clusters.append(cluster)
+                continue
+
+            # Check primary article
+            if query in cluster.primary_article.title.lower() or \
+               (cluster.primary_article.summary and query in cluster.primary_article.summary.lower()):
+                filtered_clusters.append(cluster)
+                continue
+
+            # Check related articles
+            for article in cluster.related_articles:
+                if query in article.title.lower() or \
+                   (article.summary and query in article.summary.lower()):
+                    filtered_clusters.append(cluster)
+                    break
+
+        return filtered_clusters
+
     return current_clusters
 
 @app.post("/refresh")
