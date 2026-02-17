@@ -10,6 +10,7 @@ TechCurator is an intelligent news aggregation platform designed to declutter yo
 - **Smart Deduplication**: Identifies and merges duplicate articles using MinHash algorithms.
 - **Intelligent Clustering**: Groups related stories together to reduce noise.
 - **AI-Powered Summaries**: Uses Google Gemini API to provide brief, relevant summaries for each story cluster.
+- **Search & Filtering**: Real-time searching of news stories by title, summary, or topic.
 - **Zero-UI Design**: A minimalist interface that prioritizes content over clutter.
 - **PWA Experience**: Installable on mobile and desktop, with offline capabilities.
 

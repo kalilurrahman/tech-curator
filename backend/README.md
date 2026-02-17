@@ -8,6 +8,7 @@ The backend for TechCurator is a FastAPI application designed to aggregate, dedu
 - **Deduplication**: Uses `datasketch` (MinHash/LSH) to identify and remove duplicate articles.
 - **Clustering**: Groups similar stories using `sentence-transformers` and `scikit-learn` (DBSCAN/KMeans).
 - **AI Integration**: Utilizes Google Gemini API for generating concise summaries and topic labels.
+- **Search & Filtering**: Allows filtering stories by keywords.
 - **API**: Exposes RESTful endpoints for the frontend to consume.
 
 ## Project Structure
@@ -73,22 +74,28 @@ The API will be available at `http://localhost:8000`.
 ### `GET /feed`
 Retrieves the current list of clustered stories.
 
+**Query Parameters:**
+- `q` (optional): Search query to filter stories by title, summary, or topic.
+
+**Example:**
+```bash
+curl http://localhost:8000/feed?q=python
+```
+
 **Response:**
 ```json
 [
   {
     "id": "cluster_id",
-    "label": "TOPIC_LABEL",
+    "topic_label": "TOPIC_LABEL",
     "summary": "AI-generated summary of the cluster.",
-    "articles": [
-      {
+    "primary_article": {
         "title": "Article Title",
         "url": "https://example.com/article",
         "source": "Source Name",
         "published_at": "2023-10-27T10:00:00Z"
-      },
-      ...
-    ]
+    },
+    "related_articles": [ ... ]
   },
   ...
 ]

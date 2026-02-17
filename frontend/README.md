@@ -4,7 +4,9 @@ This is the frontend for the TechCurator application, built with [SvelteKit](htt
 
 ## Features
 
-- **Responsive Design**: Optimized for all screen sizes.
+- **Responsive Design**: Optimized for all screen sizes (Desktop & Mobile).
+- **Search & Filter**: Real-time filtering of news stories by keyword.
+- **Manual Refresh**: Trigger a fresh aggregation pipeline directly from the UI.
 - **PWA Support**: Installable on devices, with offline capabilities via service workers.
 - **Dynamic Content**: Fetches real-time news clusters from the backend API.
 - **Zero-UI Philosophy**: Minimalist interface focused on content consumption.
@@ -12,9 +14,10 @@ This is the frontend for the TechCurator application, built with [SvelteKit](htt
 ## Project Structure
 
 - `src/routes/`: Contains the application pages.
-  - `+page.svelte`: The main landing page displaying the news feed.
+  - `+page.svelte`: The main landing page displaying the news feed, search bar, and controls.
   - `+layout.svelte`: The root layout component.
 - `src/lib/`: Reusable components and utilities.
+  - `components/NewsCard.svelte`: The interactive card component for displaying stories.
 - `static/`: Static assets (images, icons, etc.).
 - `service-worker.js`: Script for PWA functionality (caching, offline support).
 
